@@ -3,25 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlets;
+package gr.forth.ics.isl.xem.ui.servlets;
 
+import gr.forth.ics.isl.xem.ui.database.tables.EditUserTable;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mainClasses.JSON_Converter;
-import mainClasses.User;
-import database.tables.EditUserTable;
-import java.sql.SQLException;
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author gerry
  */
-public class GetUser extends HttpServlet {
+public class servlet_login extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +40,10 @@ public class GetUser extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GetUser</title>");            
+            out.println("<title>Servlet servlet_login</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet GetUser at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet servlet_login at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -72,27 +72,35 @@ public class GetUser extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-       
-            JSON_Converter jc = new JSON_Converter();
-            String JSON = jc.getJSONFromAjax(request.getReader());
-            try ( PrintWriter out = response.getWriter()) {
-            Logger.getLogger(GetUser.class.getName()).log(Level.INFO, "Received JSON: " + JSON);
+@Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    request.setCharacterEncoding("UTF-8");  
 
-            EditUserTable users = new EditUserTable();
-            users.addUserFromJSON(JSON);
-            out.write(JSON);
-            response.setStatus(200);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(GetUser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(GetUser.class.getName()).log(Level.SEVERE, null, ex);
+    String username = request.getParameter("username");
+    String password = request.getParameter("password");
+
+    Logger.getLogger(servlet_login.class.getName()).log(Level.INFO, "Received username: " + username);
+    Logger.getLogger(servlet_login.class.getName()).log(Level.INFO, "Received password: " + password);
+    
+    HttpSession session = request.getSession(true);
+    try (PrintWriter out = response.getWriter()) {
+        EditUserTable user_table = new EditUserTable();
+        if (user_table.databaseUserToJSON(username, password) == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            out.write("Invalid credentials");
+        } else {
+            session.setAttribute("loggedIn", username);
+            response.setStatus(HttpServletResponse.SC_OK);
+            out.write("Login successful");
         }
+    } catch (SQLException | ClassNotFoundException ex) {
+        Logger.getLogger(servlet_login.class.getName()).log(Level.SEVERE, null, ex);
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        
     }
+}
+    
 
     /**
      * Returns a short description of the servlet.

@@ -1,4 +1,4 @@
-package database;
+package gr.forth.ics.isl.xem.ui.database.tables;
 
 import com.google.gson.JsonObject;
 import java.sql.Connection;

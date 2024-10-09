@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.tables;
+package gr.forth.ics.isl.xem.ui.database.tables;
 
 import com.google.gson.Gson;
-import database.DB_Connection;
 import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.rowset.serial.SerialBlob;
-import mainClasses.File;
+import gr.forth.ics.isl.xem.ui.mainClasses.File;
 
 /**
  *

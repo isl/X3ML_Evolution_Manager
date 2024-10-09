@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlets;
+package gr.forth.ics.isl.xem.ui.servlets;
 
 import com.google.gson.Gson;
 import java.io.BufferedReader;
@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import mainClasses.mainTranslation;
+import gr.forth.ics.isl.xem.ui.mainClasses.mainTranslation;
 /**
  *
  * @author gerry

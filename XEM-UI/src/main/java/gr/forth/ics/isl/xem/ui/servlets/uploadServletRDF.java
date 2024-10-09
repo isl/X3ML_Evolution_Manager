@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlets;
+package gr.forth.ics.isl.xem.ui.servlets;
 
-import database.tables.EditFileTable;
+import gr.forth.ics.isl.xem.ui.database.tables.EditFileTable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import mainClasses.JSON_Converter;
-import mainClasses.ModelLoader;
+import gr.forth.ics.isl.xem.ui.mainClasses.JSON_Converter;
+import gr.forth.ics.isl.xem.ui.mainClasses.ModelLoader;
 
 /**
  *

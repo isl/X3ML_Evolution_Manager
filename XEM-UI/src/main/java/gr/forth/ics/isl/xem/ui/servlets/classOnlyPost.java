@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlets;
+package gr.forth.ics.isl.xem.ui.servlets;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import database.tables.EditClassPropertyTable;
+import gr.forth.ics.isl.xem.ui.database.tables.EditClassOnlyTable;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.sql.Blob;
+import static java.lang.System.out;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -27,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author gerry
  */
-public class classPropertyPost extends HttpServlet {
+public class classOnlyPost extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +44,10 @@ public class classPropertyPost extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet classPropertyPost</title>");            
+            out.println("<title>Servlet classOnlyPost</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet classPropertyPost at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet classOnlyPost at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -78,7 +76,7 @@ public class classPropertyPost extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
@@ -89,8 +87,7 @@ public class classPropertyPost extends HttpServlet {
         BufferedReader br = request.getReader();
         StringBuilder jsonBuilder = new StringBuilder();
         String line;
-        Blob b;
-        
+
         while ((line = br.readLine()) != null) {
             jsonBuilder.append(line);
         }
@@ -110,33 +107,24 @@ public class classPropertyPost extends HttpServlet {
             String[] entry = pair.split(":", 2);
             String key = entry[0].trim().replace("\"", "").replace("{", "").replace("}", "");
             String value = entry[1].trim().replace("\"", "").replace("}", "");  
-            
-            
+
             LOGGER.log(Level.INFO, "key: " + key);
             LOGGER.log(Level.INFO, "value: " + value);
-            
             map.put(key, value);
         }
 
         String classBefore = map.get("classBefore");
         String classAfter = map.get("classAfter");
-        String propertyBefore = map.get("propertyBefore");
-        String propertyAfter = map.get("propertyAfter");
-        String additionalClass = map.get("additionalClass");
-        
+
         LOGGER.log(Level.INFO, "be4: " + classBefore);  
         LOGGER.log(Level.INFO, "after: " + classAfter); 
-        LOGGER.log(Level.INFO, "be4: " + propertyBefore);  
-        LOGGER.log(Level.INFO, "after: " + propertyAfter); 
-        LOGGER.log(Level.INFO, "added: " + additionalClass); 
-        
 
-        EditClassPropertyTable classProperty=new EditClassPropertyTable();
+        EditClassOnlyTable classOnly=new EditClassOnlyTable();
     
         try {
-            classProperty.addClassesProperty(classBefore, classAfter, propertyBefore, propertyAfter,additionalClass);
+            classOnly.addClasses(classBefore, classAfter);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(classPropertyPost.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(classOnlyPost.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

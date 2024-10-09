@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package database.tables;
+package gr.forth.ics.isl.xem.ui.database.tables;
 
 
 import com.google.gson.Gson;
-import database.DB_Connection;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import mainClasses.User;
+import gr.forth.ics.isl.xem.ui.mainClasses.User;
 
 /**
  *

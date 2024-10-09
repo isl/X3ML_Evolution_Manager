@@ -1,4 +1,4 @@
-package mainClasses;
+package gr.forth.ics.isl.xem.ui.mainClasses;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import com.google.gson.Gson;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import servlets.classOnlyPost;
+import gr.forth.ics.isl.xem.ui.servlets.classOnlyPost;
 import gr.forth.ics.isl.x3ml.X3MLEngine;
 import java.io.FileInputStream;
 import java.io.InputStream;

@@ -1,4 +1,4 @@
-package mainClasses;
+package gr.forth.ics.isl.xem.ui.mainClasses;
 
 import org.apache.jena.ontology.OntClass;
 import org.apache.jena.ontology.OntModel;

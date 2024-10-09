@@ -1,7 +1,7 @@
-package servlets;
+package gr.forth.ics.isl.xem.ui.servlets;
 
 import com.google.gson.Gson;
-import database.tables.EditFileTable;
+import gr.forth.ics.isl.xem.ui.database.tables.EditFileTable;
 import java.util.List;
 import java.io.File;
 import java.io.IOException;
@@ -21,9 +21,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-@WebServlet("/uploadServlet")
+@WebServlet("/uploadServlet1")
 @MultipartConfig
-public class uploadServlet extends HttpServlet {
+public class uploadServlet1 extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -57,6 +57,7 @@ public class uploadServlet extends HttpServlet {
        
         // Handle the file upload
         Part filePart = request.getPart("fileUpload0");
+ 
         String fileName = filePart.getSubmittedFileName();
        
         EditFileTable editFile=new EditFileTable();
@@ -74,13 +75,14 @@ public class uploadServlet extends HttpServlet {
         }
 
          List<String> fileContentLines = Files.readAllLines(file.toPath());
-         
-         String specificString = "<type>"; 
+      
+          String specificString = "<type>"; 
          String specificString1="<relationship>";
-         String namespace="<namespace prefix=";
-
+         String namespace ="<namespace prefix=";
+         
         List<String> filteredLines = new ArrayList<>();
         List<String> allNameSpaces = new ArrayList<>();
+        
         for (String line : fileContentLines) {
             if (line.contains(specificString)) {
                 filteredLines.add(line);
@@ -88,7 +90,6 @@ public class uploadServlet extends HttpServlet {
                 allNameSpaces.add(line);
             }
         }
-        
         List<String> filteredLines1 = new ArrayList<>();
         for (String line : fileContentLines) {
             if (line.contains(specificString1)) {
@@ -102,8 +103,7 @@ public class uploadServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
        
             editFile.addNewFile(0,fileContentLines);
-            out.write(String.join("", fileContentLines)+filteredContent+filteredContent1+allNameSpaces);
-            Logger.getLogger(uploadServlet.class.getName()).log(Level.INFO,"namespace"+allNameSpaces);
+            out.write(filteredContent+filteredContent1+allNameSpaces);
             response.setStatus(HttpServletResponse.SC_OK);
             
         } catch (ClassNotFoundException ex) {
