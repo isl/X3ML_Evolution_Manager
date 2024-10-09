@@ -1,4 +1,4 @@
-package gr.forth.ics.isl.xem.util;
+package gr.forth.ics.isl.xem.util.db;
 
 import java.io.BufferedReader;
 import java.io.File;
